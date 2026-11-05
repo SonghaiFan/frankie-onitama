@@ -1,16 +1,18 @@
-![Frankie Onitama — current product banner](docs/readme/banner.png)
+![Frankie Onitama](docs/readme/banner.png)
 
 # Frankie Onitama
 
-A browser implementation of Onitama: a 5×5 strategy board where movement cards rotate between players.
+A five-by-five board, a handful of movement cards, and one move to think through.
 
-## Features
+[Guide](docs/guide.md) · [Run locally](#run-locally)
 
-- Play using movement cards and a shared exchange card.
+## What it does
+
+- Move pieces using the current movement cards and exchange the card you play.
 - Choose card packs, including variants with Wind Spirit mechanics.
-- Move pieces using the board UI, with touch interaction and audio.
+- Use the board with pointer or touch controls, with optional audio.
 
-## Getting started
+## Run locally
 
 ```sh
 npm ci
@@ -19,16 +21,20 @@ npm run dev
 
 Open the local URL printed by Next.js.
 
-## Project notes
+## Before you start
 
-Built with Next.js, React, TypeScript, Tailwind CSS, Motion and Howler.js. Game rules and state live in `src/utils/`, interfaces in `src/components/`, and card packs and piece symbols in `public/`. See [architecture](ARCHITECTURE.md) for implementation details.
+The selected card pack determines the available movement rules. See the [architecture notes](ARCHITECTURE.md) for game state, card exchange and variant mechanics.
 
-## Development
+## For developers
 
 ```sh
 npm run build
 ```
 
-Use local play to check card exchange, move legality, winning conditions and touch input.
+Check move legality, card exchange, winning conditions and touch input in local play.
 
-Banner sources and update instructions: [README artwork](docs/readme/README.md).
+[Project guide](docs/guide.md) · [Artwork](docs/readme/README.md)
+
+---
+
+Made by [Songhai Fan](https://github.com/SonghaiFan) · A Frankie project
