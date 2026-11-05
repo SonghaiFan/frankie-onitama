@@ -1,0 +1,32 @@
+{
+  "title": "Onitama",
+  "tagline": "Five by five. One move ahead.",
+  "category": "Play / Abstract strategy",
+  "layout": "screenshot",
+  "assets": [
+    {
+      "src": "assets/ui.png",
+      "fit": "contain",
+      "crop": [
+        205,
+        87,
+        1298,
+        1120
+      ],
+      "source_size": [
+        1708,
+        1245
+      ]
+    }
+  ],
+  "signature": "assets/frankie.svg",
+  "icon": "assets/icon.png",
+  "provenance": [
+    {
+      "file": "assets/ui.png",
+      "kind": "current local app screenshot",
+      "note": "Current local board and real movement cards; no AI settings changed.",
+      "captured_on": "2026-11-05"
+    }
+  ]
+}

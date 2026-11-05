@@ -1,0 +1,15 @@
+{
+  "repository": "frankie-onitama",
+  "source_commit": "da3f3e9093af19738879370210fe60d13da8fe6a",
+  "captured_on": "2026-11-05",
+  "source_state": "Current local working tree; existing uncommitted app edits were included where present.",
+  "materials": [
+    {
+      "file": "assets/ui.png",
+      "kind": "current local app screenshot",
+      "note": "Current local board and real movement cards; no AI settings changed.",
+      "captured_on": "2026-11-05"
+    }
+  ],
+  "icon": "assets/icon.png"
+}
