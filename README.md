@@ -2,6 +2,8 @@
 
 # Frankie Onitama
 
+[English](README.md) · [简体中文](README.zh-CN.md)
+
 A five-by-five board, a handful of movement cards, and one move to think through.
 
 [Guide](docs/guide.md) · [Run locally](#run-locally)
