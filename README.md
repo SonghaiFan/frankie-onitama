@@ -6,7 +6,7 @@
 
 A five-by-five board, a handful of movement cards, and one move to think through.
 
-[Guide](docs/guide.md) · [Run locally](#run-locally)
+[Introduction](https://songhaifan.github.io/frankie-onitama/) · [Guide](docs/guide.md) · [Run locally](#run-locally)
 
 ## What it does
 

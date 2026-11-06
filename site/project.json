@@ -1,0 +1,58 @@
+{
+  "repository": "SonghaiFan/frankie-onitama",
+  "branch": "main",
+  "pages_url": "https://songhaifan.github.io/frankie-onitama/",
+  "kind": "online",
+  "app_url": "https://onitama-game-songhaifans-projects.vercel.app",
+  "vercel_project": "onitama-game",
+  "accent": "#245b72",
+  "tint": "#f0f6f8",
+  "category": {
+    "en": "Board / Strategy",
+    "zh": "棋盘 / 策略"
+  },
+  "steps": {
+    "en": [
+      "Choose a card pack.",
+      "Select a piece and use a movement card.",
+      "Exchange the played card and plan around your opponent’s next turn."
+    ],
+    "zh": [
+      "选择卡包。",
+      "选中棋子，使用移动卡走棋。",
+      "交换用过的卡牌，考虑对手的下一步。"
+    ]
+  },
+  "media": [
+    {
+      "src": "docs/readme/assets/ui.png",
+      "caption": {
+        "en": "Current product interface and original assets.",
+        "zh": "项目真实界面或原始素材。"
+      },
+      "crop": [
+        205,
+        87,
+        1298,
+        1120
+      ],
+      "source_size": [
+        1708,
+        1245
+      ]
+    },
+    {
+      "src": "site/assets/board.png",
+      "caption": {
+        "en": "The current movement cards and five-by-five board.",
+        "zh": "当前移动卡与五乘五棋盘。"
+      },
+      "captured_on": "2026-11-05",
+      "source_revision": "See docs/readme/source-version.json"
+    }
+  ],
+  "art_note": {
+    "en": "Current product interface and original assets.",
+    "zh": "素材来自项目当前界面与原始资源。"
+  }
+}

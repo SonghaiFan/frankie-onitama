@@ -6,7 +6,7 @@
 
 一块五乘五的棋盘，几张移动卡，以及值得想清楚的下一步。
 
-[项目指南](docs/guide.md) · [本地运行](#本地运行)
+[介绍页](https://songhaifan.github.io/frankie-onitama/zh/) · [项目指南](docs/guide.md) · [本地运行](#本地运行)
 
 ## 可以做什么
 

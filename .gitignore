@@ -43,3 +43,6 @@ next-env.d.ts
 /rust
 .rs
 *.rs
+
+# Standalone introduction build
+/_site/
