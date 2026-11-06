@@ -5,8 +5,8 @@
   "kind": "online",
   "app_url": "https://onitama-game-songhaifans-projects.vercel.app",
   "vercel_project": "onitama-game",
-  "accent": "#245b72",
-  "tint": "#f0f6f8",
+  "accent": "#292524",
+  "tint": "#faf8f2",
   "category": {
     "en": "Board / Strategy",
     "zh": "棋盘 / 策略"
@@ -25,30 +25,40 @@
   },
   "media": [
     {
-      "src": "docs/readme/assets/ui.png",
+      "src": "site/assets/board-current.png",
       "caption": {
-        "en": "Current product interface and original assets.",
-        "zh": "项目真实界面或原始素材。"
+        "en": "A real Standard Pack match.",
+        "zh": "真实标准包对局。"
       },
-      "crop": [
-        205,
-        87,
-        1298,
-        1120
-      ],
-      "source_size": [
-        1708,
-        1245
-      ]
+      "captured_on": "2026-11-06",
+      "source_revision": "084853d692473a67c60e9cafe8a9975d685555aa"
     },
     {
-      "src": "site/assets/board.png",
+      "src": "site/assets/move-current.png",
       "caption": {
-        "en": "The current movement cards and five-by-five board.",
-        "zh": "当前移动卡与五乘五棋盘。"
+        "en": "A selected piece/card and highlighted destination.",
+        "zh": "选中棋子、卡牌与高亮目标格。"
       },
-      "captured_on": "2026-11-05",
-      "source_revision": "See docs/readme/source-version.json"
+      "captured_on": "2026-11-06",
+      "source_revision": "084853d692473a67c60e9cafe8a9975d685555aa"
+    },
+    {
+      "src": "site/assets/packs-current.png",
+      "caption": {
+        "en": "Current available card packs.",
+        "zh": "当前可选卡包。"
+      },
+      "captured_on": "2026-11-06",
+      "source_revision": "084853d692473a67c60e9cafe8a9975d685555aa"
+    },
+    {
+      "src": "site/assets/wind-current.png",
+      "caption": {
+        "en": "Wind Spirit variant.",
+        "zh": "风灵变体。"
+      },
+      "captured_on": "2026-11-06",
+      "source_revision": "084853d692473a67c60e9cafe8a9975d685555aa"
     }
   ],
   "art_note": {

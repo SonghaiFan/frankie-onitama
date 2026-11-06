@@ -1,0 +1,206 @@
+{
+  "en": {
+    "headline": "Five cards. Two paths to victory.",
+    "intro": "Play Onitama on a shared board. Every move changes the cards available to both players.",
+    "open": "Open Onitama",
+    "nav": [
+      "The rules",
+      "First match",
+      "Screens"
+    ],
+    "concept_title": "The move belongs to the card.",
+    "concept": "Each player starts with a master, four students and two movement cards. A fifth card waits beside the 5 × 5 board. All your pieces use the cards in your hand; they do not have fixed chess-like moves.",
+    "rules": [
+      [
+        "Choose a piece and a card",
+        "Tap one of your pieces, choose one of your two cards, then tap a highlighted destination. Movement is relative to the player: forward for Red points toward Blue, and vice versa."
+      ],
+      [
+        "Capture by landing",
+        "Land on an opposing piece to remove it. You may jump over intervening pieces, but may not finish on one of your own pieces."
+      ],
+      [
+        "Give the move away",
+        "After moving, exchange the card you used for the waiting card. Your used card becomes the next waiting card. Think about the move you are handing over, as well as the one you take."
+      ]
+    ],
+    "win_title": "Capture the master. Or reach the temple.",
+    "wins": [
+      [
+        "Way of the Stone",
+        "Capture the opposing master. Capturing all four students is not required."
+      ],
+      [
+        "Way of the Stream",
+        "Move your own master onto the opposing temple: the middle square of their starting row. A student reaching that square does not win."
+      ]
+    ],
+    "sample_title": "Read a movement card",
+    "sample_note": "A small adaptation of the app’s MoveGrid, using its actual Standard Pack JSON. The center marks a piece; colored squares are relative destinations. This is a diagram, not a playable match.",
+    "perspective": "View from",
+    "red": "Red",
+    "blue": "Blue",
+    "center": "Piece",
+    "destination": "Destination",
+    "packs_title": "Start with Standard. Explore the variations.",
+    "packs_intro": "Select one or more packs before Begin. The app draws five cards from the selected pool; New Game deals another match. Special packs change more than the artwork.",
+    "variants": [
+      [
+        "Wind Spirit",
+        "A neutral spirit begins at the center. A wind card can move one of your pieces, then the spirit using its separate pattern. The spirit can exchange positions with a student, but cannot take a master’s place."
+      ],
+      [
+        "Mimicry / Dual cards",
+        "These cards give masters and students different movement patterns. Read the symbol next to each pattern before choosing a piece."
+      ],
+      [
+        "This app’s Wind setup",
+        "The current loader requires at least three wind cards among the five dealt cards, and can deal more. This is the app’s implemented selection rule; consult the publisher’s expansion rulebook when playing the physical edition."
+      ]
+    ],
+    "ai_title": "Across the table. Or against local AI.",
+    "ai": "With AI off, two people share the same browser and alternate turns. AI Settings can give Blue to a local search algorithm: Easy, Monte Carlo variants or Alpha-Beta. This is game-tree search, not an online language model; no model key is needed. AI is disabled when Wind or Mimicry cards are selected.",
+    "ai_note": "The optional advantage bar is a heuristic estimate, not a measured probability that you will win. Start with the Standard Pack to learn the exchange rhythm.",
+    "workflow_title": "Your first match",
+    "steps": [
+      [
+        "Choose Standard Pack",
+        "Keep only Standard selected for the simplest rules. Switch the landing page to EN or Chinese as needed."
+      ],
+      [
+        "Begin and read the turn",
+        "The waiting card’s color determines the opening player. Read Current Turn before selecting a piece."
+      ],
+      [
+        "Select, move, exchange",
+        "Choose a piece and one of your cards. Tap a highlighted destination, then inspect the new waiting card and the other player’s hand."
+      ],
+      [
+        "Watch both temples",
+        "Protect your master while threatening the opposing master or temple. New Game restarts with a new deal; Back to Home lets you change packs."
+      ]
+    ],
+    "gallery_title": "The actual board and controls",
+    "captions": [
+      "A real Standard Pack match, before the opening move.",
+      "A selected piece and movement card, with a legal destination highlighted.",
+      "Choose packs and language before starting.",
+      "The Wind Spirit variant, with separate movement patterns."
+    ],
+    "run_title": "A browser table, not an online room",
+    "runtime": "Open the hosted app on a computer or touch device. There is no account, room code or remote multiplayer connection in this interface. Keep the match open while playing; a refreshed page starts the landing flow again. Music is optional.",
+    "local": "Run locally",
+    "local_note": "Install dependencies and start the Next.js development server. The move packs and AI search are included in the project.",
+    "research_title": "Learn the original rules",
+    "research": "The basic movement, card exchange and two victory conditions follow Onitama by Shimpei Sato. Read the publisher’s rules for the tabletop game; the Wind and Mimicry descriptions above explain this app’s current implementation.",
+    "rules_link": "Arcane Wonders: Onitama",
+    "wind_link": "Way of the Wind rulebook",
+    "guide": "Asset & content maintenance guide",
+    "source": "Source code",
+    "footer": "A Frankie project by Songhai Fan",
+    "skip": "Skip to content",
+    "hero_alt": "A real Onitama match, cropped around the board"
+  },
+  "zh": {
+    "headline": "五张卡，两条胜利之路。",
+    "intro": "在同一块棋盘上对弈。每走一步，双方接下来能用的卡牌都会改变。",
+    "open": "打开 Onitama",
+    "nav": [
+      "了解规则",
+      "第一局",
+      "真实界面"
+    ],
+    "concept_title": "移动方式，写在卡牌上。",
+    "concept": "每位玩家有一名师傅、四名学徒与两张移动卡。第五张卡放在 5 × 5 棋盘旁等待交换。同一方的棋子使用手中的卡牌移动，并非每种棋子拥有固定的国际象棋式走法。",
+    "rules": [
+      [
+        "选择棋子与卡牌",
+        "点击己方棋子，选择手中的一张卡，再点击高亮的目标格。方向以当前玩家为准：红方的前方朝向蓝方，蓝方则相反。"
+      ],
+      [
+        "落点决定吃子",
+        "落在对方棋子上即可将其移除。可以跳过沿途的棋子，但不能停在己方棋子上。"
+      ],
+      [
+        "把走法交出去",
+        "走棋后，用过的卡与等待卡交换；用过的卡成为新的等待卡。既要考虑自己拿到了什么，也要考虑接下来会把什么交给对方。"
+      ]
+    ],
+    "win_title": "吃掉师傅，或者抵达神殿。",
+    "wins": [
+      [
+        "石之道",
+        "吃掉对方师傅获胜，不必吃掉全部四名学徒。"
+      ],
+      [
+        "水之道",
+        "用己方师傅走到对方起始行正中的神殿格。学徒走到那里不会获胜。"
+      ]
+    ],
+    "sample_title": "读懂一张移动卡",
+    "sample_note": "根据应用 MoveGrid 与标准包真实 JSON 改编的小示意图。中心是棋子，彩色格表示相对落点。这是读卡示例，不是完整对局。",
+    "perspective": "查看视角",
+    "red": "红方",
+    "blue": "蓝方",
+    "center": "棋子",
+    "destination": "落点",
+    "packs_title": "从标准包开始，再探索变化。",
+    "packs_intro": "开始前可以选择一个或多个卡包。应用从选中的牌池抽出五张卡；新对局会重新发牌。特殊卡包改变的不只是画面。",
+    "variants": [
+      [
+        "风灵",
+        "中立风灵从棋盘中心开始。风灵卡先按一个图案移动己方棋子，再按另一个图案移动风灵。风灵可以与学徒交换位置，但不能占据师傅的位置。"
+      ],
+      [
+        "摹形 / 双重卡",
+        "师傅与学徒在同一张卡上使用不同的移动图案。选棋子前，先看清图案旁的棋子标记。"
+      ],
+      [
+        "本应用的风灵发牌",
+        "当前加载器要求五张卡中至少三张是风灵卡，也可能发出更多。这是本应用实际实现的选牌规则；玩实体版本时，请以出版商的扩展规则书为准。"
+      ]
+    ],
+    "ai_title": "面对面，或与本地 AI 对弈。",
+    "ai": "关闭 AI 时，两个人在同一个浏览器轮流操作。AI Settings 可以把蓝方交给本地搜索算法：简单、Monte Carlo 系列或 Alpha-Beta。它是棋局搜索，不是在线语言模型，不需要模型 key。选择风灵或摹形卡后，AI 会禁用。",
+    "ai_note": "可选的优势条是启发式估计，并不是经过实测的获胜概率。建议先用标准包熟悉换牌节奏。",
+    "workflow_title": "第一局怎么开始",
+    "steps": [
+      [
+        "选择标准包",
+        "只保留标准包，先体验基础规则。首页可以切换英文或中文。"
+      ],
+      [
+        "开始并确认回合",
+        "等待卡的颜色决定先手。选择棋子前先看 Current Turn。"
+      ],
+      [
+        "选棋、移动、交换",
+        "选择棋子与手中的卡，点击高亮目标格。走完后，看一看新的等待卡与对手的手牌。"
+      ],
+      [
+        "同时留意两座神殿",
+        "保护己方师傅，同时威胁对方师傅或神殿。New Game 会重新发牌开始；Back to Home 可以返回更换卡包。"
+      ]
+    ],
+    "gallery_title": "真实棋盘与操作界面",
+    "captions": [
+      "真实标准包对局，尚未走出第一步。",
+      "选中棋子与移动卡，高亮显示合法目标格。",
+      "开始前选择卡包与语言。",
+      "风灵变体与分别显示的移动图案。"
+    ],
+    "run_title": "浏览器棋桌，不是在线房间",
+    "runtime": "可以在电脑或触屏设备打开已部署应用。当前界面没有账号、房间码或远程多人连接。下棋时保持页面打开；刷新会重新进入首页流程。音乐可自行开关。",
+    "local": "本地运行",
+    "local_note": "安装依赖并启动 Next.js 开发服务器。移动卡包与 AI 搜索代码都包含在项目中。",
+    "research_title": "了解原版规则",
+    "research": "基础走棋、换牌与两种胜利条件来自佐藤心平设计的 Onitama。实体棋请阅读出版商规则；上面的风灵与摹形说明对应本应用当前实现。",
+    "rules_link": "Arcane Wonders：Onitama",
+    "wind_link": "风之道规则书",
+    "guide": "素材与内容维护指南",
+    "source": "源代码",
+    "footer": "Songhai Fan 制作的 Frankie 系列项目",
+    "skip": "跳至内容",
+    "hero_alt": "真实 Onitama 对局，围绕棋盘裁切展示"
+  }
+}

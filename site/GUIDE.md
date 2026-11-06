@@ -1,47 +1,52 @@
-# Introduction page maintenance / 介绍页维护
+# Onitama introduction maintenance / 介绍页维护
 
-[English README](../README.md) · [中文 README](../README.zh-CN.md)
+The EN introduction is https://songhaifan.github.io/frankie-onitama/; Chinese is `zh/`. The playable app is https://onitama-game-songhaifans-projects.vercel.app. The page builds independently of Next.js and never reads environment files.
 
-## Two destinations / 两个入口
+英文默认，中文位于 `zh/`；介绍页独立构建，不需要构建应用或读取环境变量。
 
-- Introduction / 介绍页: https://songhaifan.github.io/frankie-onitama/
-- App / 应用: https://onitama-game-songhaifans-projects.vercel.app
-- The introduction is a standalone static site. It never builds the app or reads environment files. / 介绍页独立构建，不构建应用，也不读取环境变量文件。
-- English is the default; `zh/` is the Chinese version. / 英文默认，中文位于 `zh/`。
+## Content and owning code / 文案与对应代码
 
-## Files to update / 更新哪些文件
-
-| Source / 来源 | What it shows / 内容 |
+| What changed / 变化 | Update / 更新 |
 | --- | --- |
-| `docs/readme/assets/ui.png` | Current product interface and original assets. |
-| `site/assets/board.png` | The current movement cards and five-by-five board. |
+| Movement, exchange, captures, temples / 走棋、换牌与胜负 | Read `src/utils/gameManager.ts`; update both languages in `site/content.json`. |
+| Pack names, counts, patterns / 卡包与走法 | `public/pack/onitama_cards_*.json` feeds counts and the diagram at build time. Update `content.json` if special rules change. |
+| Wind deal or two-stage move / 风灵发牌与双阶段走棋 | Read `src/utils/dataLoader.ts`, `gameManager.ts`; the current app requires at least three wind cards. Do not replace this with a different tabletop setup description. |
+| AI or restrictions / AI 与限制 | Read `src/utils/ai/aiFactory.ts`, `aiRestrictions.ts`, `gameController.ts`, `ai/winProbability.ts`; keep local-search and heuristic wording accurate. |
+| Layout/controls / 布局与控件 | Read `GameHeader.tsx`, `GameBoard.tsx`, `MoveCards.tsx`, `MoveGrid.tsx`, `OnitamaLanding.tsx`; refresh screenshots below. |
+| Palette/type/logo / 视觉风格 | `src/app/globals.css`, `public/Onitama_Logo.svg.png`; adapt `site/style.css`. The page intentionally keeps the app’s light scroll-paper theme. |
 
-- `../README.md` and `../README.zh-CN.md`: product introduction, features, setup, limitations and developer commands. Update both languages together. / 同步维护双语介绍、功能、运行步骤与限制。
-- `project.json`: app URL, repository, category, colors, three user steps and the ordered media list. / 应用链接、仓库、分类、颜色、使用步骤与有序素材列表。
-- `style.css`: this app's visual treatment within the shared layout. / 统一结构下的项目视觉风格。
-- `build.py`: portable standard-library renderer. / 可独立使用的 Python 标准库构建器。
+`site/cards.js` is a small, clearly labelled diagram adapted from `MoveGrid.tsx` and player-oriented coordinate logic. It reads real Ox/Crab/Tiger data, rotates for Blue, and stores nothing. It is not a full embedded game. If these cards are removed, update the selected IDs in `site/build.py`; a missing record fails the build rather than inventing data.
 
-## Replacing screenshots and GIFs / 替换截图和动图
+移动示意使用真实标准包数据，切换红蓝视角；不保存数据，也不冒充完整游戏。卡牌删除时，需要同步更新构建器里的示例 ID。
 
-1. Run the current app and capture real, settled UI. Use synthetic or guest data; hide credentials and private content. For GIFs, record a real interaction from start to finish, rather than animating a static screenshot. / 运行当前版本，使用访客或示例数据采集稳定画面；GIF 应录制真实操作，不把静态图伪装成操作录像。
-2. Replace the corresponding source file above when its screen changes. These banner assets are shared with the README; replacing them may update both the banner and this page. Keep `docs/readme/source-version.json` and banner provenance accurate. / 界面变化后替换对应文件；共享素材会同时影响 banner，需同步更新来源记录。
-3. For a new screen or GIF, add it under `site/assets/` and add an entry to `project.json` → `media` with `src`, bilingual `caption`, and optionally `captured_on` / `source_revision`. The first item is the hero; the full list is the gallery. Use a GIF's first frame as an informative resting frame, keep files small, and provide a still alternative. / 新素材放到 `site/assets/`，登记双语说明、采集时间和版本；第一项为主图，其余进入画廊。GIF 应有可读首帧并保留静态替代图。
-4. If app behavior changes, update both READMEs and both `steps` arrays. Native screenshots and shared family artwork must be labelled honestly. / 行为变化时同步更新双语 README 和使用步骤；区分原生截图与系列共享素材。
-5. Build and inspect desktop and mobile, in both languages. Check the app link and every image. / 构建后检查桌面、手机和两种语言，验证链接与所有图片。
+## Exact assets / 替换哪些素材
+
+| Asset | Capture / 采集方式 |
+| --- | --- |
+| `site/assets/board-current.png` | Standard only → Begin → settled starting board. / 只选标准包，开始后等待棋盘稳定。 |
+| `site/assets/move-current.png` | Select a current-player piece and card; capture the legal destination highlight before moving. / 选中当前玩家棋子与卡牌，采集高亮合法目标格。 |
+| `site/assets/packs-current.png` | Landing page with all pack buttons loaded, EN or Chinese intentionally chosen. / 首页卡包按钮全部加载后采集。 |
+| `site/assets/wind-current.png` | Select Wind + Standard, Begin; capture neutral spirit and separate patterns after animation settles. / 风灵与标准包混合，开始后采集风灵与双图案。 |
+| `docs/readme/banner.png` | Approved banner reused for Open Graph; regenerate through `docs/readme/build.py` only if banner source UI/icon changes. / 分享图继续复用已确认 banner。 |
+| `public/Onitama_Logo.svg.png`, `docs/readme/assets/frankie.svg` | Real project logo and approved signature, copied unchanged. / 真实标志与系列签名，直接复用。 |
+
+Use real UI with no private content. Capture around 1468×1247 or update dimensions in `build.py`. Wait for fonts/images and movement transitions before screenshotting. The hero applies a CSS crop of the original screenshot; inspect the crop on phones. Update `project.json` capture revision/date and both captions in `content.json`. The original wide images remain available in the gallery. If adding a GIF, record a real interaction, provide an informative resting frame, and offer playback through an explicit control.
+
+使用真实稳定界面；采集后同步素材版本、双语图注与尺寸，检查手机裁切。GIF 必须来自真实操作，并提供明确播放入口。
+
+## Preview and publish / 预览与发布
 
 ```sh
-python3 site/build.py
+python3 site/build.py --out _site
 python3 -m http.server 8080 --directory _site --bind 127.0.0.1
 ```
 
-Open http://127.0.0.1:8080/ and http://127.0.0.1:8080/zh/.
+Check `/` and `/zh/` on desktop and 390px phones: readable screenshots, no broken images, no overflow, all three sample cards and both perspectives. Intro controls must not modify a real game. Check `#use` and `#start`, source links and the app link. No app rebuild or model request is needed.
 
-## Publishing / 发布
+Push reviewed `site/` changes to `main`; `.github/workflows/pages.yml` publishes only `_site/`. It also watches real pack JSON, logo and banner inputs. Keep app behavior, dependencies, env files and unrelated changes out of the documentation commit.
 
-Push the reviewed page changes to `main`. `.github/workflows/pages.yml` publishes only `_site/` to GitHub Pages. App deployment remains separate on Vercel for browser apps; API services and native/local apps retain their own runtime. Never include `.env` files or unrelated work in a page commit. / 推送审核后的页面改动到 `main`，工作流只发布 `_site/`；应用与 API 的部署分别管理，勿提交环境变量文件或其他未完成代码。
+检查两种语言、桌面与手机、三张示例卡和红蓝视角；只提交介绍页相关改动。工作流会监听示例数据、标志与 banner 更新。
 
-If the branch or repository owner changes, update `project.json`, the workflow branch and README introduction links. / 分支或仓库所有者变化时，同步修改配置、工作流与介绍页链接。
+## Rules and attribution / 规则与出处
 
-## App signature / 应用签名
-
-The app signature uses `public/frankie-signature.svg`, copied from the approved `docs/readme/assets/frankie.svg`. It links to this introduction page. / 应用签名使用已确认的系列 SVG，并链接到介绍页。
+Basic movement, exchange and two win conditions are grounded in the [Arcane Wonders Onitama page](https://www.arcanewonders.com/eu/product/onitama/). The [publisher’s Way of the Wind rulebook](https://www.arcanewonders.com/eu/wp-content/uploads/sites/6/2024/06/Onitama_Way_of_the_Wind.pdf) is linked for the physical expansion. Explain this app’s variant behavior from its owning code; do not imply every pack implements every publisher rule exactly. See `site/AUDIT.md` for inspected flows and code evidence.

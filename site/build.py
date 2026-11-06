@@ -1,84 +1,37 @@
 #!/usr/bin/env python3
-"""Build the standalone bilingual introduction. Python 3.9+, no app build or env files."""
-import argparse,html,json,re,shutil
+"""Build the independent bilingual Onitama introduction with real pack data."""
+import argparse,html,json,shutil
 from pathlib import Path
-
-def inline(s,base):
- s=html.escape(s)
- def link(m):
-  label,url=m.groups()
-  if not url.startswith(('https://','http://','#','mailto:')):url=base+url
-  return '<a href="'+url+'">'+label+'</a>'
- s=re.sub(r'\[([^\]]+)\]\(([^)]+)\)',link,s)
- s=re.sub(r'`([^`]+)`',r'<code>\1</code>',s)
- return re.sub(r'\*\*([^*]+)\*\*',r'<strong>\1</strong>',s)
-
-def markdown(s,base):
- out=[]
- for b in s.strip().split('\n\n'):
-  if b.startswith('```'):
-   out.append('<pre><code>'+html.escape('\n'.join(b.splitlines()[1:-1]))+'</code></pre>')
-  elif b.startswith('- '):out.append('<ul>'+''.join('<li>'+inline(l[2:],base)+'</li>' for l in b.splitlines())+'</ul>')
-  elif re.match(r'1\. ',b):out.append('<ol>'+''.join('<li>'+inline(re.sub(r'^\d+\. ','',l),base)+'</li>' for l in b.splitlines())+'</ol>')
-  elif b!='---' and not b.startswith('Made by '):out.append('<p>'+inline(b,base)+'</p>')
- return '\n'.join(out)
-
-def parse(s):
- title=re.search(r'^# (.+)$',s,re.M).group(1)
- intro=s.split('\n\n')[3]
- sections=re.split(r'^## .+$',s,flags=re.M)[1:]
- # Remove the family credit from final section.
- sections[-1]=sections[-1].split('\n---')[0]
- return title,intro,sections
+H=html.escape
 
 def build(repo,out):
- cfg=json.loads((repo/'site/project.json').read_text());out.mkdir(parents=True,exist_ok=True)
- media=out/'media';media.mkdir(exist_ok=True)
- shutil.copy(repo/'site/style.css',out/'style.css')
- shutil.copy(repo/'docs/readme/assets/frankie.svg',media/'signature.svg')
- items=[]
- for i,a in enumerate(cfg['media']):
-  source=(repo/a['src']).resolve();assert source.is_relative_to(repo.resolve()),source
-  dest=f'{i+1:02d}-{source.name}';shutil.copy(source,media/dest);items.append((dest,a))
+ cfg=json.loads((repo/'site/project.json').read_text());content=json.loads((repo/'site/content.json').read_text());out.mkdir(parents=True,exist_ok=True);media=out/'media';media.mkdir(exist_ok=True)
+ for f in ['style.css','cards.js']:shutil.copy(repo/'site'/f,out/f)
+ for src,dest in [('docs/readme/banner.png','banner.png'),('public/Onitama_Logo.svg.png','logo.png'),('docs/readme/assets/frankie.svg','signature.svg')]:shutil.copy(repo/src,media/dest)
+ for name in ['board','move','packs','wind']:shutil.copy(repo/f'site/assets/{name}-current.png',media/f'{name}.png')
+ normal=json.loads((repo/'public/pack/onitama_cards_normal.json').read_text())['cards'];samples=[next(x for x in normal if x['id']==id) for id in ['ox','crab','tiger']]
+ counts={p:len(json.loads((repo/f'public/pack/onitama_cards_{p}.json').read_text())['cards']) for p in ['normal','senseis','promo','special','windway','dual']}
+ packnames={'en':['Standard','Sensei’s Path','Promo','Special','Way of the Wind','Mimicry'],'zh':['标准包','大师之路','限定包','特殊包','风之道','摹形']}
  (out/'.nojekyll').touch()
- for lang in ['en','zh']:
-  zh=lang=='zh';prefix='../' if zh else './';output=out/'zh' if zh else out;output.mkdir(exist_ok=True)
-  s=(repo/('README.zh-CN.md' if zh else 'README.md')).read_text();title,intro,sections=parse(s)
-  base='https://github.com/'+cfg['repository']+'/blob/'+cfg['branch']+'/'
-  labels=['可以做什么','使用步骤','界面与细节','本地运行','开始之前','开发与指南'] if zh else ['What it does','How to use it','In the app','Run locally','Before you start','Development & guides']
-  cta=('打开应用' if zh else 'Open the app') if cfg['kind']=='online' else ('查看接入方式' if zh else 'Integration guide') if cfg['kind']=='api' else ('本地开始' if zh else 'Get started locally')
-  target=cfg.get('app_url') or '#start'
-  feature_items=re.findall(r'^- (.+)$',sections[0],re.M)
-  features=''.join(f'<li><span class="num">0{i+1}</span><p>{inline(t,base)}</p></li>' for i,t in enumerate(feature_items))
-  steps=''.join(f'<li>{html.escape(t)}</li>' for t in cfg['steps'][lang])
-  gallery=[]
-  for i,(dest,a) in enumerate(items):
-   caption=a.get('caption',{}).get(lang,a['caption']['en'])
-   if dest.endswith('.gif'):
-    gallery.append(f'<figure><details><summary>{"播放真实操作动图" if zh else "Play recorded demo"}</summary><img src="{prefix}media/{dest}" alt="{html.escape(caption,quote=True)}" loading="lazy"></details><figcaption><span>0{i+1}</span> {html.escape(caption)}</figcaption></figure>')
-   else:
-    gallery.append(f'<figure><a href="{prefix}media/{dest}" aria-label="{html.escape(caption,quote=True)}"><img src="{prefix}media/{dest}" alt="{html.escape(caption,quote=True)}" loading="lazy"></a><figcaption><span>0{i+1}</span> {html.escape(caption)}</figcaption></figure>')
-  guide=('素材更新指南' if zh else 'Updating screenshots & GIFs')
-  body=f'''<!doctype html>
-<html lang="{'zh-CN' if zh else 'en'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>{html.escape(title)} — Frankie</title><meta name="description" content="{html.escape(intro,quote=True)}">
-<meta name="theme-color" content="{cfg['tint']}"><link rel="canonical" href="{cfg['pages_url']+('zh/' if zh else '')}">
-<link rel="alternate" hreflang="en" href="{cfg['pages_url']}"><link rel="alternate" hreflang="zh-CN" href="{cfg['pages_url']}zh/">
-<link rel="stylesheet" href="{prefix}style.css"><meta property="og:title" content="{html.escape(title,quote=True)}"><meta property="og:description" content="{html.escape(intro,quote=True)}"><meta property="og:type" content="website">
-</head><body style="--accent:{cfg['accent']};--tint:{cfg['tint']}">
-<a class="skip" href="#main">{'跳至内容' if zh else 'Skip to content'}</a>
-<header class="shell"><a class="brand" href="{prefix}"><img src="{prefix}media/signature.svg" width="96" height="40" alt="Frankie"><span>{html.escape(title)}</span></a>
-<nav aria-label="{'页面导航' if zh else 'Page navigation'}"><a href="#use">{labels[1]}</a><a href="https://github.com/{cfg['repository']}">GitHub</a><span class="languages"><a href="{prefix}" lang="en" {'aria-current="page"' if not zh else ''}>EN</a><a href="{prefix}zh/" lang="zh-CN" {'aria-current="page"' if zh else ''}>中文</a></span></nav></header>
-<main id="main" class="shell"><section class="hero"><p class="eyebrow">{html.escape(cfg['category'][lang])}</p><h1>{html.escape(title)}</h1><div class="hero-bottom"><p class="intro">{html.escape(intro)}</p><a class="button" href="{target}">{cta}<span aria-hidden="true">↗</span></a></div></section>
-<div class="hero-art"><img src="{prefix}media/{items[0][0]}" alt="{html.escape(cfg['art_note'][lang],quote=True)}" fetchpriority="high"></div><p class="art-note">{html.escape(cfg['art_note'][lang])}</p>
-<section class="section"><h2><span class="index">01</span>{labels[0]}</h2><ul class="features">{features}</ul></section>
-<section id="use" class="section how"><h2><span class="index">02</span>{labels[1]}</h2><ol class="steps">{steps}</ol></section>
-<section class="section"><h2><span class="index">03</span>{labels[2]}</h2><div class="gallery">{''.join(gallery)}</div></section>
-<section id="start" class="section split"><h2><span class="index">04</span>{labels[3]}</h2><div class="prose">{markdown(sections[1],base)}</div></section>
-<section class="section split"><h2><span class="index">05</span>{labels[4]}</h2><div class="prose">{markdown(sections[2],base)}</div></section>
-<section class="section split"><h2><span class="index">06</span>{labels[5]}</h2><div class="prose">{markdown(sections[3],base)}<p><a href="{base}site/GUIDE.md">{guide} ↗</a></p></div></section>
-</main><footer class="shell"><span>{'由' if zh else 'Made by'} <a href="https://github.com/SonghaiFan">Songhai Fan</a> · {'Frankie 系列项目' if zh else 'A Frankie project'}</span><a href="https://github.com/{cfg['repository']}">{'源代码' if zh else 'Source code'} ↗</a></footer></body></html>'''
-  (output/'index.html').write_text(body)
+ for lang,c in content.items():
+  zh=lang=='zh';pre='../' if zh else './';dest=out/'zh' if zh else out;dest.mkdir(exist_ok=True)
+  rows=lambda xs:''.join('<article><h3>'+H(a)+'</h3><p>'+H(b)+'</p></article>' for a,b in xs)
+  gallery=''.join(f'<figure><a href="{pre}media/{n}.png"><img src="{pre}media/{n}.png" width="1468" height="1247" loading="lazy" alt="{H(caption)}"></a><figcaption>{H(caption)}</figcaption></figure>' for n,caption in zip(['board','move','packs','wind'],c['captions']))
+  buttons=''.join(f'<button type="button" data-card="{i}" aria-pressed="{str(i==0).lower()}">{H(x["name"].get("zh" if zh else "en"))}</button>' for i,x in enumerate(samples))
+  data=json.dumps({'cards':samples,'lang':lang,'center':c['center'],'destination':c['destination']},ensure_ascii=False).replace('<','\\u003c')
+  packs=''.join(f'<div><dt>{H(name)}</dt><dd>{n} {"张" if zh else "cards"}</dd></div>' for name,n in zip(packnames[lang],counts.values()))
+  page=f'''<!doctype html><html lang="{'zh-CN' if zh else 'en'}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Frankie Onitama | {H(c['headline'])}</title><meta name="description" content="{H(c['intro'])}"><meta name="theme-color" content="#faf8f2"><link rel="stylesheet" href="{pre}style.css"><link rel="canonical" href="{cfg['pages_url']+('zh/' if zh else '')}"><link rel="alternate" hreflang="en" href="{cfg['pages_url']}"><link rel="alternate" hreflang="zh-CN" href="{cfg['pages_url']}zh/"><meta property="og:type" content="website"><meta property="og:url" content="{cfg['pages_url']+('zh/' if zh else '')}"><meta property="og:title" content="Frankie Onitama"><meta property="og:description" content="{H(c['intro'])}"><meta property="og:image" content="{cfg['pages_url']}media/banner.png"></head><body><a class="skip" href="#main">{H(c['skip'])}</a>
+<header class="shell"><a class="brand" href="{pre}"><img src="{pre}media/logo.png" alt="Onitama" width="140" height="52"></a><nav aria-label="{'页面导航' if zh else 'Page navigation'}"><a href="#rules">{c['nav'][0]}</a><a href="#use">{c['nav'][1]}</a><a href="#screens">{c['nav'][2]}</a><a href="{pre}" lang="en" {'aria-current="page"' if not zh else ''}>EN</a><a href="{pre}zh/" lang="zh-CN" {'aria-current="page"' if zh else ''}>中文</a></nav></header>
+<main class="shell" id="main"><section class="hero"><div><h1>{H(c['headline'])}</h1><p class="lead">{H(c['intro'])}</p><a class="button" href="{cfg['app_url']}">{H(c['open'])} ↗</a></div><figure class="hero-screen"><img src="{pre}media/move.png" width="1468" height="1247" alt="{H(c['hero_alt'])}" fetchpriority="high"></figure></section>
+<section class="section" id="rules"><h2>{H(c['concept_title'])}</h2><p class="lead narrow">{H(c['concept'])}</p><div class="rules">{rows(c['rules'])}</div></section>
+<section class="section diagram"><div><h2>{H(c['sample_title'])}</h2><p>{H(c['sample_note'])}</p><div class="card-buttons">{buttons}</div><label for="perspective">{H(c['perspective'])}</label><select id="perspective"><option value="red">{H(c['red'])}</option><option value="blue">{H(c['blue'])}</option></select></div><div class="move-card"><h3 id="card-name">{H(samples[0]['name'].get('zh' if zh else 'en'))}</h3><div id="move-grid" class="move-grid" role="img" aria-label="{H(c['sample_title'])}"></div><p id="move-description" aria-live="polite"></p></div></section>
+<section class="section"><h2>{H(c['win_title'])}</h2><div class="wins">{rows(c['wins'])}</div></section>
+<section class="section"><h2>{H(c['packs_title'])}</h2><p class="lead narrow">{H(c['packs_intro'])}</p><dl class="pack-list">{packs}</dl><div class="variants">{rows(c['variants'])}</div><h3 class="ai-heading">{H(c['ai_title'])}</h3><p class="narrow">{H(c['ai'])}</p><p class="small narrow">{H(c['ai_note'])}</p></section>
+<section id="use" class="section"><h2>{H(c['workflow_title'])}</h2><ol class="steps">{''.join('<li><h3>'+H(a)+'</h3><p>'+H(b)+'</p></li>' for a,b in c['steps'])}</ol></section>
+<section id="screens" class="section"><h2>{H(c['gallery_title'])}</h2><div class="gallery">{gallery}</div></section>
+<section id="start" class="section runtime"><div><h2>{H(c['run_title'])}</h2><p>{H(c['runtime'])}</p><h3>{H(c['research_title'])}</h3><p>{H(c['research'])}</p><p><a href="https://www.arcanewonders.com/eu/product/onitama/">{H(c['rules_link'])} ↗</a><br><a href="https://www.arcanewonders.com/eu/wp-content/uploads/sites/6/2024/06/Onitama_Way_of_the_Wind.pdf">{H(c['wind_link'])} ↗</a></p></div><div><h3>{H(c['local'])}</h3><pre><code>npm ci\nnpm run dev</code></pre><p class="small">{H(c['local_note'])}</p><a href="https://github.com/{cfg['repository']}/blob/main/site/GUIDE.md">{H(c['guide'])} ↗</a></div></section></main>
+<footer class="shell"><img src="{pre}media/signature.svg" width="90" height="38" alt="Frankie"><span>{H(c['footer'])}</span><a href="https://github.com/{cfg['repository']}">{H(c['source'])} ↗</a></footer><script id="card-data" type="application/json">{data}</script><script src="{pre}cards.js" defer></script></body></html>'''
+  (dest/'index.html').write_text(page)
  print(out)
 if __name__=='__main__':
- ap=argparse.ArgumentParser();ap.add_argument('--out',default='_site');args=ap.parse_args();repo=Path(__file__).resolve().parents[1];build(repo,Path(args.out).resolve())
+ ap=argparse.ArgumentParser();ap.add_argument('--out',default='_site');a=ap.parse_args();build(Path(__file__).resolve().parents[1],Path(a.out).resolve())
