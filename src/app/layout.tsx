@@ -104,7 +104,7 @@ export default function RootLayout({
         <meta name="msapplication-config" content="/browserconfig.xml" />
       </head>
       <body suppressHydrationWarning={true}>
-        <SoundProvider>{children}</SoundProvider>
+        <SoundProvider>{children}</SoundProvider><footer style={{ textAlign: "center", padding: 10, color: "#78716c" }}><a href="https://songhaifan.github.io/frankie-onitama/" aria-label="About Frankie onitama" style={{ display: "inline-flex", alignItems: "center", padding: "6px", color: "inherit",  }}><span aria-hidden="true" style={{ display: "block", width: 76, height: 26, backgroundColor: "currentColor", mask: "url(/frankie-signature.svg) center / contain no-repeat", WebkitMask: "url(/frankie-signature.svg) center / contain no-repeat" }} /></a></footer>
       </body>
     </html>
   );
